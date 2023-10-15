@@ -1,23 +1,31 @@
-import { useState } from 'react'
 
+import {
+  MapContainer,
+  TileLayer,
+  useMap,
+  Popup,
+  Marker,
+
+} from "react-leaflet";
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const position = [51.505, -0.09]
   return (
     <>
-     
-      <h1>maggy + kelvin</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-       
-      </div>
-      
+      <MapContainer className="map"  center={position} zoom={13} scrollWheelZoom={false}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[51.505, -0.09]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </MapContainer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
