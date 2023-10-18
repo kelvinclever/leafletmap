@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import LocationMarker from "./LocationMarker";
 import "./map.css";
-import { MapContainer, TileLayer, Popup, Marker, Polyline, useMapEvents } from "react-leaflet";
+import Footer from "./footer";
+import {
+  MapContainer,
+  TileLayer,
+  Popup,
+  Marker,
+  Polyline,
+  useMapEvents,
+} from "react-leaflet";
 import axios from "axios";
 
 const Map = () => {
@@ -43,11 +51,16 @@ const Map = () => {
     if (desiredLocationName) {
       try {
         const apiKey = "ccf28dc93d7c4692b54a12d2cdbe6ab2"; // Replace with your OpenCage Geocoding API key
-        const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${desiredLocationName}&key=${apiKey}`);
+        const response = await axios.get(
+          `https://api.opencagedata.com/geocode/v1/json?q=${desiredLocationName}&key=${apiKey}`
+        );
         const result = response.data.results[0];
 
         if (result) {
-          const desiredLocationCoordinates = [result.geometry.lat, result.geometry.lng];
+          const desiredLocationCoordinates = [
+            result.geometry.lat,
+            result.geometry.lng,
+          ];
           setDesiredLocation(desiredLocationCoordinates);
           setPathCoordinates([userLocation, desiredLocationCoordinates]);
 
@@ -87,10 +100,13 @@ const Map = () => {
 
     if (userEmail) {
       try {
-        const response = await axios.post("http://localhost:3001/send-location", {
-          email: userEmail,
-          location: userLocation, // Include the user's location
-        });
+        const response = await axios.post(
+          "http://localhost:3001/send-location",
+          {
+            email: userEmail,
+            location: userLocation, // Include the user's location
+          }
+        );
 
         if (response.status === 200) {
           alert("Location sent to your email.");
@@ -107,61 +123,76 @@ const Map = () => {
   };
 
   return (
-    <>
-      <MapContainer
-        className="map"
-        center={userLocation || kutusCoordinates}
-        zoom={13}
-        scrollWheelZoom={false}
-        onClick={handleMapClick}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {userLocation && (
-          <Marker position={userLocation}>
-            <Popup>Your current location</Popup>
-          </Marker>
-        )}
-        {desiredLocation && (
-          <Marker position={desiredLocation}>
-            <Popup>Your desired location</Popup>
-          </Marker>
-        )}
-        {pathCoordinates.length === 2 && (
-          <Polyline positions={pathCoordinates} color="blue" />
-        )}
-        {directions && (
-          <Popup>
-            <h2>Directions</h2>
-            <p>Distance: {directions.routes[0].distance} meters</p>
-            <p>Estimated Time: {directions.routes[0].duration} seconds</p>
-          </Popup>
-        )}
-        <LocationMarker />
-      </MapContainer>
+    <div className="container">
       <div>
-        <h2>Desired Location</h2>
-        <form onSubmit={handleFormSubmit}>
-          <label>
-            Enter the name of the desired location:
-            <input type="text" name="locationName" placeholder="e.g., Nairobi" />
-          </label>
-          <button type="submit">Set Desired Location</button>
-        </form>
+        <MapContainer
+          className="map"
+          center={userLocation || kutusCoordinates}
+          zoom={13}
+          scrollWheelZoom={false}
+          onClick={handleMapClick}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {userLocation && (
+            <Marker position={userLocation}>
+              <Popup>Your current location</Popup>
+            </Marker>
+          )}
+          {desiredLocation && (
+            <Marker position={desiredLocation}>
+              <Popup>Your desired location</Popup>
+            </Marker>
+          )}
+          {pathCoordinates.length === 2 && (
+            <Polyline positions={pathCoordinates} color="blue" />
+          )}
+          {directions && (
+            <Popup>
+              <h2>Directions</h2>
+              <p>Distance: {directions.routes[0].distance} meters</p>
+              <p>Estimated Time: {directions.routes[0].duration} seconds</p>
+            </Popup>
+          )}
+          <LocationMarker />
+        </MapContainer>
+      </div>
+      <div className="formsInputs">
+        <div>
+          <h2>Desired Location</h2>
+          <form onSubmit={handleFormSubmit}>
+            <label>
+              Enter the name of the desired location:
+              <input
+                type="text"
+                name="locationName"
+                placeholder="e.g., Nairobi"
+              />
+            </label>
+            <button type="submit">Set Desired Location</button>
+          </form>
+        </div>
+        <div>
+          <h2>Send Location to Email</h2>
+          <form onSubmit={handleEmailSubmit}>
+            <label>
+              Enter your email address:
+              <input
+                type="email"
+                name="email"
+                placeholder="youremail@example.com"
+              />
+            </label>
+            <button type="submit">Send Location</button>
+          </form>
+        </div>
       </div>
       <div>
-        <h2>Send Location to Email</h2>
-        <form onSubmit={handleEmailSubmit}>
-          <label>
-            Enter your email address:
-            <input type="email" name="email" placeholder="youremail@example.com" />
-          </label>
-          <button type="submit">Send Location</button>
-        </form>
+        <Footer/>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,13 @@
+/* Footer.css */
+.footer {
+    background-color: #333;
+    margin-top: 10px;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+  }
+  
+  .footer p {
+    margin: 0;
+  }
+  

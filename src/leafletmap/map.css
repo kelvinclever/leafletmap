@@ -1,10 +1,15 @@
 /* map.css */
 
 /* Base styles for the map container */
+.container{
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(4, 4, 72);
+}
 .map {
   width: 100%; /* Take the full width of its container */
   max-width: 100%;
-  height: 500px; /* Adjust the initial height as needed */
+  height: 570px; /* Adjust the initial height as needed */
 }
 
 /* Style for the desired location marker */
@@ -15,6 +20,16 @@
 /* Style for the popup content */
 .leaflet-popup-content {
   max-width: 200px; /* Adjust the maximum width as needed */
+}
+.formsInputs{
+background-color: rgb(4, 4, 72);
+color: whitesmoke;
+display:flex;
+flex-direction: row;
+justify-content: space-around;
+margin: 5px;
+padding-block: 2rem;
+
 }
 
 /* Style for the form and input fields */
@@ -34,6 +49,7 @@ input[type="email"] {
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
+  background-color: white;
 /* padding-inline: 4px; */
   border-radius: 4px;
   overflow-x: hidden;
@@ -41,7 +57,7 @@ input[type="email"] {
 
 /* Style for the buttons */
 button {
-  background-color: #007bff; /* Blue color for buttons */
+  background-color: #024082; /* Blue color for buttons */
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -51,23 +67,43 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3; /* Darker blue color on hover */
+  background-color: #012b57; /* Darker blue color on hover */
 }
 
 /* Media query for screens smaller than 768px */
 @media (max-width: 768px) {
   .map {
-    height: 300px; /* Adjust the height for smaller screens */
+    height: 600px; /* Adjust the height for smaller screens */
+  }
+  .formsInputs{
+    display: flex;
+    flex-direction: column;
+    padding: 3rem ;
   }
 }
-
+@media (max-width: 900px) {
+  .map {
+    max-height: 900px;
+    height: 600px; /* Adjust the height for smaller screens */
+  }
+  .formsInputs{
+    display: flex;
+    flex-direction: column;
+    padding: 3rem ;
+  }
+}
 /* Media query for screens smaller than 576px */
 @media (max-width: 576px) {
   .map {
-    height: 250px; /* Adjust the height for even smaller screens */
+    height: 600px; /* Adjust the height for even smaller screens */
   }
 
   .leaflet-popup-content {
     max-width: 100%; /* Allow popup content to take full width on small screens */
+  }
+  .formsInputs{
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
   }
 }
