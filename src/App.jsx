@@ -1,5 +1,5 @@
 import Map from "./leafletmap/Map";
-import "./app.css";
+import "./App.css";
 
 function App() {
   return (
